@@ -1,0 +1,110 @@
+#! /usr/bin/env python3
+
+from subprocess import Popen, PIPE
+import os
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+program_path = dir_path + "/filter_simulator"
+
+# Turn output print statements on or off
+verbose = True
+
+# Source for this demonstration method:
+# https://stackoverflow.com/questions/65408371/how-to-use-python-to-input-to-and-get-output-from-c-program
+
+# Open program
+if verbose: print("Running program: " + program_path)
+p = Popen([program_path], stdout=PIPE, stdin=PIPE)
+
+# Demo 1: RC Lowpass filter magnitude response
+
+if verbose: print("\nDemo 1: Lowpass filter example (R=1.6, C=10u)")
+
+# Program Input
+p.stdin.write(b"1\n") # Choose RC filter
+if verbose: print("Input: 1")
+p.stdin.write(b"1\n") # Choose Lowpass filter
+if verbose: print("Input: 1")
+p.stdin.write(b"1.6\n") # Set R = 1.6
+if verbose: print("Input: 1.6")
+p.stdin.write(b"10u\n") # Set C = 10u
+if verbose: print("Input: 10u")
+p.stdin.write(b"1\n") # Choose Magnitude Response
+if verbose: print("Input: 1")
+p.stdin.write(b"0 20000 100\n") # Set fmin, fmax, step size to 0 20000 100
+if verbose: print("Input: 0 20000 100")
+p.stdin.write(b"1\n") # Choose Text file output
+if verbose: print("Input: 1")
+p.stdin.write(b"output_rc_lowpass_mag.txt\n") # Set filename to output_lowpass_mag.txt
+if verbose: print("Input: output_rc_lowpass_mag.txt")
+p.stdin.write(b"y\n") # Continue
+if verbose: print("Input: y")
+p.stdin.write(b"2\n") # Choose Phase Response
+if verbose: print("Input: 2")
+p.stdin.write(b"0 100000 1000\n") # Set fmin, fmax, step size to 0 100000 1000
+if verbose: print("Input: 0 100000 1000")
+p.stdin.write(b"1\n") # Choose Text file output
+if verbose: print("Input: 1")
+p.stdin.write(b"output_rc_lowpass_phase.txt\n") # Set filename to output_lowpass_mag.txt
+if verbose: print("Input: output_rc_lowpass_phase.txt")
+p.stdin.write(b"n\n") # End
+if verbose: print("Input: n")
+
+if verbose: print("\nConsole Output:")
+
+p.stdin.flush()
+
+# Check Output
+result = p.stdout.readlines()
+for line in result:
+    line = line.strip()
+    if verbose: print("Output: " + line.decode())
+
+
+p = Popen([program_path], stdout=PIPE, stdin=PIPE)
+
+# Demo 2: RLC Bandpass filter
+
+if verbose: print("\nDemo 2: Bandpass filter example (R=1, L=1m, C=10u)")
+
+# Program Input
+p.stdin.write(b"3\n") # Choose RLC filter
+if verbose: print("Input: 3")
+p.stdin.write(b"3\n") # Choose bandpass filter
+if verbose: print("Input: 3")
+p.stdin.write(b"1.6\n") # Set R = 1
+if verbose: print("Input: 1.6")
+p.stdin.write(b"1m\n") # Set L = 1m
+if verbose: print("Input: 1m")
+p.stdin.write(b"10u\n") # Set C = 10u
+if verbose: print("Input: 10u")
+p.stdin.write(b"1\n") # Choose Magnitude Response
+if verbose: print("Input: 1")
+p.stdin.write(b"0 20000 10\n") # Set fmin, fmax, step size to 0 20000 10
+if verbose: print("Input: 0 20000 10")
+p.stdin.write(b"1\n") # Choose Text file output
+if verbose: print("Input: 1")
+p.stdin.write(b"output_rlc_bandpass_mag.txt\n") # Set filename to output_lowpass_mag.txt
+if verbose: print("Input: output_rlc_bandpass_mag.txt")
+p.stdin.write(b"y\n") # Continue
+if verbose: print("Input: y")
+p.stdin.write(b"2\n") # Choose Phase Response
+if verbose: print("Input: 2")
+p.stdin.write(b"0 20000 10\n") # Set fmin, fmax, step size to 0 20000 10
+if verbose: print("Input: 0 20000 10")
+p.stdin.write(b"1\n") # Choose Text file output
+if verbose: print("Input: 1")
+p.stdin.write(b"output_rlc_bandpass_phase.txt\n") # Set filename to output_lowpass_mag.txt
+if verbose: print("Input: output_rlc_bandpass_phase.txt")
+p.stdin.write(b"n\n") # End
+if verbose: print("Input: n")
+
+p.stdin.flush()
+
+# Check Output
+
+if verbose: print("\nConsole output:")
+result = p.stdout.readlines()
+for line in result:
+    line = line.strip()
+    if verbose: print("Output: " + line.decode())

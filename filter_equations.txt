@@ -1,0 +1,35 @@
+Links and equations for all analog filters
+
+Overview:
+- Document includes equations for each supported circuit
+- Non-referenced equations calculated by hand
+
+RC:
+    Lowpass:
+        H(jw) = 1.0 / (1.0 + j * w * R * C)
+        v(t) = 1.0 - exp(-t / (R * C))
+    Highpass: 
+        H(jw) = (j * w * R * C) / (1.0 + j * w * R * C)
+
+RL:
+    Lowpass:
+        H(jw) = R / (R + j * w * L)
+    Highpass:
+        H(jw) = (j * w * L) / (R + j * w * L)
+
+RLC:
+    Lowpass:
+        H(jw) = 1.0 / (1.0 - w * w * C * L + j * w * R * C)
+        Note: Circuit uses R and L in series
+    Highpass:
+        H(jw) = (-w * w) / ((-w * w) + (R * j * w / L) + (1.0 /(L * C)))
+    Bandpass:
+        H(jw) = (j * w * R / L) / ((-w * w) + (j * w * R / L) + (1.0 / (L * C)))
+    Bandstop:
+        H(jw) = ((-w * w) + (1.0 / (L * C))) / ((-w * w) + (j * w * R / L) + (1.0 / (L * C)))
+
+
+Sources:
+    Verification & Circuit Design: http://sim.okawa-denshi.jp/en/Fkeisan.htm 
+    Lowpass step response: https://en.wikipedia.org/wiki/Low-pass_filter 
+    
